@@ -436,20 +436,12 @@ def getInstalledPackageVersions(packages):
         packagestring += " "+i
         result[i] = ""
 
-    out = commands.getoutput("dpkg-query --status %s 2>/dev/null" % packagestring)
-
-    packagere = re.compile("^Package:\s(.*)$", re.MULTILINE)
-    versionre = re.compile("^Version:\s(.*)$", re.MULTILINE)
+    out = commands.getoutput("dpkg-query --show --showformat '${Package} ${version}\n' %s 2>/dev/null" % packagestring)
 
     for line in out.splitlines():
-        pmatch = re.match(packagere, line)
-        vmatch = re.match(versionre, line)
-
-        if pmatch:
-            package = pmatch.group(1)
-        if vmatch:
-            version = vmatch.group(1)
-            result[package] = version
+        tmp = line.split(None, 1)
+        if len(tmp) == 2:
+            result[tmp[0]] = tmp[1]
 
     return result
 
