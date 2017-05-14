@@ -287,7 +287,7 @@ def getSystemInfo():
     """Returns some hopefully useful sysinfo"""
 
     s = "--- System information. ---\n"
-    s += "Architecture: %s\n" % commands.getoutput("dpkg --print-installation-architecture 2>/dev/null")
+    s += "Architecture: %s\n" % commands.getoutput("dpkg --print-architecture 2>/dev/null")
     s += "Kernel:       %s\n" % commands.getoutput("uname -sr 2>/dev/null")
 
     return s
